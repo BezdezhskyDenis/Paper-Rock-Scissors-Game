@@ -1,0 +1,89 @@
+body{
+    background-color: antiquewhite;
+}
+
+.cpuChoice{
+    width: 100px;
+    height: 100px;
+}
+.playerChoice{
+    width: 100px;
+    height: 100px;
+}
+
+#playerChoice{
+    max-width: 400px;
+}
+
+.card{
+    transform: 6s ease-in-out;
+}
+
+
+#pcChoiceCarousel{
+    overflow: hidden;
+}
+.active {
+    position: relative;
+    left: -100px;
+    // -webkit-animation: slide 0.5s forwards;
+    // animation: slide 0.5s forwards;
+    
+}
+.last {
+    position: relative;
+    display: block;
+    left: 0px;
+    // -webkit-animation: slideOut 0.5s forwards;
+    // animation: slideOut 0.5s forwards;
+    
+}
+
+.win{
+    opacity: 1;
+    animation: showWin 0.5s ;
+}
+@-webkit-keyframes slide {
+    0% {left: -100px}
+    // 50% {left: 0}
+    100% { left: 0px }
+}
+
+@keyframes slide {
+    0% {left: -100px}
+    // 50% {left: 0}
+    100% { left: 0px }
+}
+@-webkit-keyframes slideOut {
+    0% {left: 0px}
+    // 50% {left: 0}
+    100% { left: 100px }
+}
+
+@keyframes slideOut {
+    0% {left: 0px}
+    // 50% {left: 0}
+    100% { left: 100px }
+}
+
+@keyframes showWin{
+    0% {opacity: 0;}
+    50%{ opacity: 0.5;}
+    100%{opacity: 1;}
+}
+
+@media screen and (max-width: 1000px) {
+     #resultMessage{
+     font-size: 1rem !important; 
+     :first-child{
+        font-size: 1rem !important; 
+    }}
+    #playerScore, #computerScore {
+     font-size: 0.8rem !important;
+     :first-child{
+         padding: 0 !important;
+         margin: 0 !important;
+        font-size: 0.8rem !important; 
+    }
+    }
+  }
