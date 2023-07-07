@@ -1,4 +1,4 @@
-import { loadGame, gameVariables, gameVariablesPic } from "./gamePatterns.js";
+import { loadGame, gameVariables, gameVariablesPic, hearts } from "./gamePatterns.js";
 
 loadGame();
 
@@ -63,10 +63,13 @@ export async function handlePlayerClick() {
   const computerChoice = await shuffle();
   const result = await resultsCalculation(playerChoice, computerChoice);
   handleResultCardChange(computerChoice, this, result);
-  resultAssemble(result);
-  btns.forEach((btn) => {
-    btn.removeAttribute("disabled", "");
-  });
+  const gameOver = resultAssemble(result);
+
+  if (!gameOver) {
+    btns.forEach((btn) => {
+      btn.removeAttribute("disabled", "");
+    });
+  }
 }
 
 function handleResultCardChange(computerChoice, playerCard, option) {
@@ -117,13 +120,17 @@ function resultsCalculation(player1, player2) {
     return 1;
   }
 }
-
+let tieCounter = 1
 function resultAssemble(result) {
   const playerScore = document.getElementById("p-score");
   const computerScore = document.getElementById("cpu-score");
   const resultMessage = document.getElementById("resultMessage");
-
+  const heart = document.getElementById(`life-${parseInt(computerScore.innerHTML)}`)
+console.log(heart)
   if (result === 1) {
+    heart.innerHTML = hearts[1]
+    heart.classList.remove("text-danger")
+    heartBeating(computerScore)
     computerScore.innerHTML++;
     resultMessage.innerText = "Computer Win!";
     resultMessage.classList.add("win");
@@ -132,8 +139,31 @@ function resultAssemble(result) {
     resultMessage.innerText = "Player win!";
     resultMessage.classList.add("win");
   } else {
-    resultMessage.innerText = "Tie!";
+    if (tieCounter % 3 === 0){
+      tieCounter ++
+      resultMessage.innerText = `Tie!`;
+      resultMessage.innerHTML = `Tie! <img class="emoji" src="./src/pic/smiling.png"></img>`;
+    } else {
+      tieCounter = 1
+      resultMessage.innerText = "Tie!";
+    }
   }
+
+  if (parseInt(computerScore.innerHTML) === 5){
+    resultMessage.innerText = "Game Over! click restart button to play again";
+    return true
+  } else {
+    return false
+  }
+}
+
+function heartBeating(num){
+  let heart = document.getElementById(`life-${parseInt(num.innerHTML)}`)
+  if (parseInt(num.innerHTML) === 3 ){
+    heart = document.getElementById(`life-${parseInt(num.innerHTML) + 1}`)
+    heart.classList.add("heart-beat")
+} else if (parseInt(num.innerHTML) === 4 )
+    heart.classList.remove("heart-beat")
 }
 
 const resetBtn = document.getElementById("resetGame");

@@ -1,5 +1,5 @@
 const main = document.getElementById("main");
-
+export const hearts = ['<i class="bi bi-heart-fill"></i>', `<i class="bi bi-heartbreak-fill"></i>`]
 export const gameVariables = ["rock", "paper", "scissors"];
 export const gameVariablesPic = [
   { name: "rock", pic: "./src/pic/rock.png" , wrong: "./src/pic/rock_block.png"},
@@ -43,7 +43,7 @@ export function loadGame() {
     "row mx-auto justify-content-center"
   );
 
-  const scoreTableResult = new span(" ", "text-center fs-2 mb-3", "txtResult");
+  const scoreTableResult = new span("Score:", "text-center fs-2 mb-3", "txtResult");
   const scorePlayerDiv = new div(
     "playerScore",
     "col-sm-3 col-md-2 col-4 px-2 p-1 mx-2 border border-secondary rounded-pill  fs-5",
@@ -79,8 +79,8 @@ export function loadGame() {
 function computerGamePattern() {
   const computerPattern = new div(
     "computerPattern",
-    "text-center mt-3 ",
-    "Computer play:"
+    "text-center fs-4 mt-3 ",
+    "Computer"
   );
 
   const computerChoice = new div(
@@ -110,9 +110,18 @@ function computerGamePattern() {
 function playerGamePattern() {
   const playerPattern = new div(
     "playerPattern",
-    "text-center mt-3 container",
-    "player chose:"
+    "text-center fs-4 mt-3 container ",
+    "Player"
   );
+  const playerLife = new div(
+    "playerLife",
+    "row container heart mx-auto mt-2"
+  );
+  for (let i = 0; i < 5; i++){
+    const life = span("", "col-sm-2 col-1 mx-auto d-inline text-danger ", `life-${i}`)
+    life.innerHTML = hearts[0]
+    playerLife.append(life)
+  }
 
   const playerChoice = new div(
     "playerChoice",
@@ -127,6 +136,7 @@ function playerGamePattern() {
     choice.innerHTML = `<button id="${key.name}" class="btn btn-player p-0 m-0"><img src="${key.pic}" class="w-100 h-100" alt="${key.name}" ></button>`;
     playerChoice.appendChild(choice);
   }
+  playerPattern.appendChild(playerLife);
   playerPattern.appendChild(playerChoice);
   main.appendChild(playerPattern);
 }
