@@ -1,4 +1,9 @@
-import { loadGame, gameVariables, gameVariablesPic, hearts } from "./gamePatterns.js";
+import {
+  loadGame,
+  gameVariables,
+  gameVariablesPic,
+  hearts,
+} from "./gamePatterns.js";
 
 loadGame();
 
@@ -7,14 +12,14 @@ async function shuffle() {
   return new Promise((resolve) => {
     counter++;
     if (counter < 20) {
-      setTimeout(shuffle, 100 + 10 * counter);
+      setTimeout(shuffle, 50 + 10 * counter);
       shuffleCards(counter);
     } else {
       counter = 0;
     }
     setTimeout(() => {
       resolve(document.querySelector(".active").children[0].alt);
-    }, 4000);
+    }, 3100);
   });
 }
 
@@ -53,8 +58,6 @@ btns.forEach((choice) => choice.addEventListener("click", handlePlayerClick));
 export async function handlePlayerClick() {
   const resultMessage = document.getElementById("resultMessage");
   resultMessage.classList.remove("win");
-  const chosenBtn = document.querySelector(".btn-success");
-  chosenBtn ? chosenBtn.classList.remove("btn-success") : "";
   btns.forEach((btn) => {
     btn.setAttribute("disabled", "");
   });
@@ -64,7 +67,9 @@ export async function handlePlayerClick() {
   const result = await resultsCalculation(playerChoice, computerChoice);
   handleResultCardChange(computerChoice, this, result);
   const gameOver = resultAssemble(result);
-
+  const chosenBtn = document.querySelector(".btn-success");
+  chosenBtn ? chosenBtn.classList.remove("btn-success") : "";
+  
   if (!gameOver) {
     btns.forEach((btn) => {
       btn.removeAttribute("disabled", "");
@@ -120,17 +125,18 @@ function resultsCalculation(player1, player2) {
     return 1;
   }
 }
-let tieCounter = 1
+let tieCounter = 1;
 function resultAssemble(result) {
   const playerScore = document.getElementById("p-score");
   const computerScore = document.getElementById("cpu-score");
   const resultMessage = document.getElementById("resultMessage");
-  const heart = document.getElementById(`life-${parseInt(computerScore.innerHTML)}`)
-console.log(heart)
+  const heart = document.getElementById(
+    `life-${parseInt(computerScore.innerHTML)}`
+  );
   if (result === 1) {
-    heart.innerHTML = hearts[1]
-    heart.classList.remove("text-danger")
-    heartBeating(computerScore)
+    heart.innerHTML = hearts[1];
+    heart.classList.remove("text-danger");
+    heartBeating(computerScore);
     computerScore.innerHTML++;
     resultMessage.innerText = "Computer Win!";
     resultMessage.classList.add("win");
@@ -139,31 +145,31 @@ console.log(heart)
     resultMessage.innerText = "Player win!";
     resultMessage.classList.add("win");
   } else {
-    if (tieCounter % 3 === 0){
-      tieCounter ++
+    if (tieCounter % 3 === 0) {
+      tieCounter++;
       resultMessage.innerText = `Tie!`;
       resultMessage.innerHTML = `Tie! <img class="emoji" src="./src/pic/smiling.png"></img>`;
     } else {
-      tieCounter = 1
+      tieCounter = 1;
       resultMessage.innerText = "Tie!";
     }
   }
 
-  if (parseInt(computerScore.innerHTML) === 5){
+  if (parseInt(computerScore.innerHTML) === 5) {
     resultMessage.innerText = "Game Over! click restart button to play again";
-    return true
+    return true;
   } else {
-    return false
+    return false;
   }
 }
 
-function heartBeating(num){
-  let heart = document.getElementById(`life-${parseInt(num.innerHTML)}`)
-  if (parseInt(num.innerHTML) === 3 ){
-    heart = document.getElementById(`life-${parseInt(num.innerHTML) + 1}`)
-    heart.classList.add("heart-beat")
-} else if (parseInt(num.innerHTML) === 4 )
-    heart.classList.remove("heart-beat")
+function heartBeating(num) {
+  let heart = document.getElementById(`life-${parseInt(num.innerHTML)}`);
+  if (parseInt(num.innerHTML) === 3) {
+    heart = document.getElementById(`life-${parseInt(num.innerHTML) + 1}`);
+    heart.classList.add("heart-beat");
+  } else if (parseInt(num.innerHTML) === 4)
+    heart.classList.remove("heart-beat");
 }
 
 const resetBtn = document.getElementById("resetGame");
